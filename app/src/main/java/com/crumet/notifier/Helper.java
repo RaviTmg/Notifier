@@ -13,4 +13,6 @@ class Helper {
     static  String SOCKET_URL = "http://broadmail.herokuapp.com";
     static  String SOCKET_PORT = "80";
 
+    public static boolean isplaying ;
+
 }

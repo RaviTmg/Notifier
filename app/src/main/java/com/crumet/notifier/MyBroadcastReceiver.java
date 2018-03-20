@@ -23,18 +23,21 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals(Helper.PLAY_ACTION)) {
-            Log.d("broadcastsomething", "playing music");
+            Log.d("broadcastsomething", "playing music"+ Helper.isplaying);
             play(context, getAlarmSound());
+            Helper.isplaying = true;
         }
         if (intent.getAction().equals(Helper.PAUSE_ACTION)) {
-            Toast.makeText(context, "dasdsa", Toast.LENGTH_LONG).show();
             Log.d("broadcastsomething", "pausing music");
             player.pause();
+            Helper.isplaying = false;
         }
 
     }
 
     private void play(Context context, Uri alert) {
+        if (Helper.isplaying)
+            return;
         player = new MediaPlayer();
         try {
             player.setDataSource(context, alert);
