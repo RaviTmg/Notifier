@@ -71,7 +71,7 @@ public class BgService extends Service {
     }
 
     private void playAlarmWithNotification(String title, String content) {
-        if (!Helper.isplaying){
+        if (!Helper.isPlaying()){
             Intent playIntent = new Intent(Helper.PLAY_ACTION);
             LocalBroadcastManager.getInstance(this).sendBroadcast(playIntent);
         }
@@ -90,6 +90,7 @@ public class BgService extends Service {
                 .setContentIntent(snoozePendingIntent)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setAutoCancel(true)
                 .addAction(R.drawable.ic_launcher_foreground, getString(R.string.snooze),
                         snoozePendingIntent);
 

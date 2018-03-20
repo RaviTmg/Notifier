@@ -13,6 +13,15 @@ class Helper {
     static  String SOCKET_URL = "http://broadmail.herokuapp.com";
     static  String SOCKET_PORT = "80";
 
-    public static boolean isplaying ;
+    public static boolean isPlaying() {
+        return playing;
+    }
+
+    public static void setPlaying(boolean playing) {
+        Helper.playing = playing;
+    }
+
+    public static boolean playing ;
+
 
 }

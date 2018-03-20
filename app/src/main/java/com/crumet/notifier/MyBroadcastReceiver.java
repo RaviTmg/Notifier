@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,20 +24,20 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals(Helper.PLAY_ACTION)) {
-            Log.d("broadcastsomething", "playing music"+ Helper.isplaying);
+            Log.d("broadcastsomething", "playing music"+ Helper.isPlaying());
             play(context, getAlarmSound());
-            Helper.isplaying = true;
+            Helper.setPlaying(true);
         }
         if (intent.getAction().equals(Helper.PAUSE_ACTION)) {
-            Log.d("broadcastsomething", "pausing music");
-            player.pause();
-            Helper.isplaying = false;
+            Log.d("broadcastsomething", "pausing music"+Helper.isPlaying());
+            player.stop();
+            Helper.setPlaying(false);
         }
 
     }
 
     private void play(Context context, Uri alert) {
-        if (Helper.isplaying)
+        if (Helper.isPlaying())
             return;
         player = new MediaPlayer();
         try {
@@ -47,6 +48,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 player.setAudioStreamType(AudioManager.STREAM_ALARM);
                 player.prepare();
                 player.start();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        player.stop();
+                        Helper.setPlaying(false);
+                    }
+                }, 60000);
             }
         } catch (IOException e) {
             Log.e("Error....", "Check code...");
